@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101827">
+<title>বাংলা কথা বলা ঘড়ি</title>
+<style>
+:root{color-scheme:dark;--bg:#101827;--panel:#1e293b;--accent:#38bdf8;--green:#0f766e;--text:#f8fafc;--muted:#cbd5e1}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#101827,#172554);color:var(--text);font-family:system-ui,"Noto Sans Bengali",sans-serif;min-height:100vh;padding:18px}
+main{max-width:560px;margin:0 auto}.brand{display:flex;align-items:center;gap:12px;margin:8px 0 18px}.logo{font-size:32px}.brand h1{font-size:1.3rem;margin:0}.brand p{margin:4px 0 0;color:var(--muted);font-size:.9rem}
+.panel{background:rgba(30,41,59,.95);border:1px solid #334155;border-radius:20px;padding:20px;margin:14px 0;box-shadow:0 12px 30px #0002}
+.kicker{text-align:center;color:var(--muted);font-size:.95rem}.clock{text-align:center;font-size:clamp(2.6rem,12vw,4.3rem);font-weight:750;letter-spacing:1px;margin:8px 0}.period{text-align:center;color:var(--accent);font-weight:650;font-size:1.1rem}
+.speech{background:#0f172a;border-radius:14px;padding:16px;text-align:center;line-height:1.8;font-size:1.1rem;margin-top:18px;min-height:58px}
+label{display:block;font-weight:650;margin:16px 0 8px}select,button{font:inherit;border-radius:12px;border:1px solid #475569;padding:12px;background:#0f172a;color:var(--text);width:100%}
+input[type=range]{width:100%;accent-color:var(--accent)}.range-row{display:flex;justify-content:space-between;color:var(--muted);font-size:.9rem}
+.buttons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.primary{background:var(--green);border-color:var(--green);font-weight:700}.secondary{background:#334155;font-weight:650}
+.status{margin-top:14px;text-align:center;color:#a7f3d0;font-size:.95rem}.note{font-size:.88rem;line-height:1.65;color:var(--muted)}.small{font-size:.85rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+  <header class="brand"><div class="logo">⏰</div><div><h1>বাংলা কথা বলা ঘড়ি</h1><p>বাংলায় সময় শুনুন, নিজের মতো বিরতি ও ভলিউম ঠিক করুন</p></div></header>
+  <section class="panel">
+    <div class="kicker">এখনকার সময়</div>
+    <div id="clock" class="clock">--:--:--</div>
+    <div id="period" class="period">সময় নির্ণয় হচ্ছে…</div>
+    <div id="speechText" class="speech">সময় বলুন বোতামে চাপ দিন</div>
+    <div class="buttons">
+      <button id="speakNow" class="primary">🔊 সময় বলুন</button>
+      <button id="toggle" class="secondary">▶ ঘোষণা চালু করুন</button>
+    </div>
+    <div id="status" class="status">স্বয়ংক্রিয় ঘোষণা বন্ধ</div>
+  </section>
+  <section class="panel">
+    <label for="interval">সময় ঘোষণার বিরতি</label>
+    <select id="interval">
+      <option value="5">প্রতি ৫ মিনিটে</option>
+      <option value="10">প্রতি ১০ মিনিটে</option>
+      <option value="15" selected>প্রতি ১৫ মিনিটে</option>
+      <option value="20">প্রতি ২০ মিনিটে</option>
+      <option value="30">প্রতি ৩০ মিনিটে</option>
+      <option value="60">প্রতি ১ ঘণ্টায়</option>
+    </select>
+    <label for="volume">🔉 কথা বলার ভলিউম</label>
+    <div class="range-row"><span>০%</span><strong id="volumeValue">৭০%</strong><span>১০০%</span></div>
+    <input id="volume" type="range" min="0" max="100" step="5" value="70">
+    <label for="rate">কথা বলার গতি</label>
+    <select id="rate"><option value="0.8">ধীর</option><option value="0.9" selected>স্বাভাবিক</option><option value="1">একটু দ্রুত</option></select>
+  </section>
+  <section class="panel note">
+    <strong>ঘোষণার নিয়ম</strong><br>
+    • সকাল ৫:০০ থেকে রাত ১১:০০ পর্যন্ত।<br>
+    • ঠিক ঘণ্টায়: “এখন সকাল ছয়টা বাজে”।<br>
+    • অন্য মিনিটে: “এখন সময় সকাল ছয়টা পনেরো মিনিট”।<br>
+    • সময়ের অংশ: সকাল ৬–১১:৫৯, দুপুর ১২–১:৫৯, বিকেল ২–৫:৫৯, সন্ধ্যা ৬–রাত ১১। সকাল ৫টার সময় “ভোর” বলা হবে।
+    <p class="small">গুরুত্বপূর্ণ: এটি Acode-এ চালানো যায় এমন ওয়েব-অ্যাপ প্রোটোটাইপ। ব্রাউজার বন্ধ বা ফোনের স্ক্রিন বন্ধ হলে নির্ভরযোগ্যভাবে ঘোষণা চালাতে হলে পরে Android APK ও ব্যাকগ্রাউন্ড সার্ভিস তৈরি করতে হবে। বাংলা কণ্ঠের প্রাপ্যতা ফোনের Text-to-Speech সেটিংসের ওপর নির্ভর করে।</p>
+  </section>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const bnDigits = s => String(s).replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[Number(d)]);
+const nums = ['শূন্য','এক','দুই','তিন','চার','পাঁচ','ছয়','সাত','আট','নয়','দশ','এগারো','বারো','তেরো','চৌদ্দ','পনেরো','ষোলো','সতেরো','আঠারো','উনিশ'];
+const tens = {20:'বিশ',30:'ত্রিশ',40:'চল্লিশ',50:'পঞ্চাশ'};
+const minuteWords = {0:'',5:'পাঁচ',10:'দশ',15:'পনেরো',20:'বিশ',25:'পঁচিশ',30:'ত্রিশ',35:'পঁয়ত্রিশ',40:'চল্লিশ',45:'পঁয়চল্লিশ',50:'পঞ্চাশ',55:'পঞ্চান্ন'};
+function numberBn(n){
+  const map={0:'শূন্য',1:'এক',2:'দুই',3:'তিন',4:'চার',5:'পাঁচ',6:'ছয়',7:'সাত',8:'আট',9:'নয়',10:'দশ',11:'এগারো',12:'বারো',13:'তেরো',14:'চৌদ্দ',15:'পনেরো',16:'ষোলো',17:'সতেরো',18:'আঠারো',19:'উনিশ',20:'বিশ',21:'একুশ',22:'বাইশ',23:'তেইশ',24:'চব্বিশ',25:'পঁচিশ',26:'ছাব্বিশ',27:'সাতাশ',28:'আটাশ',29:'ঊনত্রিশ',30:'ত্রিশ',31:'একত্রিশ',32:'বত্রিশ',33:'তেত্রিশ',34:'চৌত্রিশ',35:'পঁয়ত্রিশ',36:'ছত্রিশ',37:'সাঁইত্রিশ',38:'আটত্রিশ',39:'ঊনচল্লিশ',40:'চল্লিশ',41:'একচল্লিশ',42:'বিয়াল্লিশ',43:'তেতাল্লিশ',44:'চুয়াল্লিশ',45:'পঁয়তাল্লিশ',46:'ছেচল্লিশ',47:'সাতচল্লিশ',48:'আটচল্লিশ',49:'ঊনপঞ্চাশ',50:'পঞ্চাশ',51:'একান্ন',52:'বাহান্ন',53:'তিপ্পান্ন',54:'চুয়ান্ন',55:'পঞ্চান্ন',56:'ছাপ্পান্ন',57:'সাতান্ন',58:'আটান্ন',59:'ঊনষাট'};
+ return map[n] ?? String(n);
+}
+function getPeriod(h){
+ if(h>=5&&h<6)return 'ভোর';
+ if(h>=6&&h<12)return 'সকাল';
+ if(h>=12&&h<14)return 'দুপুর';
+ if(h>=14&&h<18)return 'বিকেল';
+ if(h>=18&&h<=23)return 'সন্ধ্যা';
+ return '';
+}
+function hourWord(h){
+ let n=h%12; if(n===0)n=12;
+ return numberBn(n);
+}
+function phrase(d=new Date()){
+ const h=d.getHours(), m=d.getMinutes(), p=getPeriod(h);
+ if(!p || h>23 || (h===23&&m>0)) return '';
+ if(m===0){
+   if(h===23) return 'এখন রাত এগারোটা বাজে';
+   if(h===12) return 'এখন দুপুর বারোটা বাজে';
+   if(h===0) return 'এখন রাত বারোটা বাজে';
+   return `এখন ${p} ${hourWord(h)}টা বাজে`;
+ }
+ return `এখন সময় ${p} ${hourWord(h)}টা ${numberBn(m)} মিনিট`;
+}
+function updateClock(){
+ const d=new Date(), h=d.getHours(), m=d.getMinutes(), s=d.getSeconds();
+ $('clock').textContent=bnDigits(`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`);
+ $('period').textContent=getPeriod(h) || (h<5?'ঘোষণার সময় নয়':'রাত');
+}
+function speak(text){
+ if(!text){$('speechText').textContent='এখন ঘোষণার নির্ধারিত সময় নয়';return}
+ if(!('speechSynthesis' in window)){alert('এই ব্রাউজারে Text-to-Speech সমর্থিত নয়। Chrome দিয়ে চেষ্টা করুন।');return}
+ speechSynthesis.cancel();
+ const u=new SpeechSynthesisUtterance(text);
+ u.lang='bn-BD'; u.volume=Number($('volume').value)/100; u.rate=Number($('rate').value);
+ const voices=speechSynthesis.getVoices();
+ const voice=voices.find(v=>v.lang.toLowerCase().startsWith('bn'));
+ if(voice)u.voice=voice;
+ $('speechText').textContent=text;
+ speechSynthesis.speak(u);
+}
+let running=false, lastKey='';
+function checkSchedule(){
+ if(!running)return;
+ const d=new Date(), mins=d.getHours()*60+d.getMinutes(), interval=Number($('interval').value);
+ const inWindow=mins>=300 && mins<=1380; // 05:00 through 23:00
+ if(!inWindow)return;
+ if(d.getSeconds()!==0)return;
+ if(mins%interval===0){
+   const key=`${d.getFullYear()}-${d.getMonth()}-${d.getDate()}-${mins}`;
+   if(key!==lastKey){lastKey=key;speak(phrase(d));}
+ }
+}
+$('speakNow').addEventListener('click',()=>speak(phrase(new Date())));
+$('toggle').addEventListener('click',()=>{
+ running=!running;
+ $('toggle').textContent=running?'⏸ ঘোষণা বন্ধ করুন':'▶ ঘোষণা চালু করুন';
+ $('status').textContent=running?'স্বয়ংক্রিয় ঘোষণা চালু — অ্যাপ খোলা রাখুন':'স্বয়ংক্রিয় ঘোষণা বন্ধ';
+ if(running){lastKey=''; checkSchedule();}
+ else speechSynthesis.cancel();
+});
+$('volume').addEventListener('input',()=> $('volumeValue').textContent=bnDigits($('volume').value)+'%');
+setInterval(()=>{updateClock();checkSchedule()},250);
+updateClock();
+if('speechSynthesis' in window) speechSynthesis.getVoices();
+</script>
+</body>
+</html>
